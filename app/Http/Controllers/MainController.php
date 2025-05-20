@@ -5,5 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class MainController extends Controller {
-    //teste teste
+
+    public function index() {
+        echo 'Estou no app';
+    }
+
+    public function newNote() {
+        echo 'Criando Nota';
+    }
 }
