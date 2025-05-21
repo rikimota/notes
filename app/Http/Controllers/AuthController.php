@@ -61,7 +61,8 @@ class AuthController extends Controller {
             ]
         ]);
 
-        echo 'LOGADO';
+        // REDIRECT TO HOME
+        return redirect('/');
     }
 
     public function logout() {
