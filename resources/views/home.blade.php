@@ -21,9 +21,6 @@
 
                 @else
 
-                <!-- temp -->
-                <hr class="my-5">
-
                 <!-- notes are available -->
                 <div class="d-flex justify-content-end mb-3">
                     <a href="{{ route('new') }}" class="btn btn-secondary px-3">

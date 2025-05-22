@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s')
             ],
             [
-                'username' => 'user3@gmail.com',
+                'username' => 'user2@gmail.com',
                 'password' => bcrypt('abc123456'),
                 'created_at' => date('Y-m-d H:i:s')
             ],
