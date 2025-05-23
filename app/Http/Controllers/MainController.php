@@ -13,7 +13,7 @@ class MainController extends Controller {
     {
         // load user's notes
         $id = session('user.id');
-        $notes = User::find($id)->notes()->get()->toArray();
+        $notes = User::find($id)->notes()->whereNull('deleted_at')->get()->toArray();
         
         // show home view
         return view('home', ['notes' => $notes]);
@@ -71,10 +71,76 @@ class MainController extends Controller {
         return view('edit_note', ['note' => $note]);
     }
 
-    public function deleteNote($id) 
+    public function editNoteSubmit(Request $request)
     {
-        // $id = $this->decryptId($id);
-        $id = Operations::decryptId($id);  
+        // validate request
+        $request->validate(
+            // rules
+            [
+                'text_title' => 'required|min:3|max:200',
+                'text_note' => 'required|min:3|max:3000'
+            ],
+            // error messages
+            [
+                'text_title.required' => 'O titulo e obrigatorio',
+                'text_title.min' => 'O titulo deve ter pelo menos :min caracteres',
+                'text_note.max' => 'O titulo deve ter no maximo :max caracteres',
+                'text_note.required' => 'A nota e obrigatoria',
+                'text_note.min' => 'A nota deve ter no minimo :min caracteres',
+                'text_note.max' => 'A nota deve ter no maximo :max caracteres'
+            ]
+        );
+
+        // check if note_id exist
+        if($request->note_id == null){
+            return redirect()->route('home');
+        }
+
+        // decrypt note_id
+        $id = Operations::decryptId($request->note_id);
+
+        // load note
+        $note = Note::find($id);
+
+        // update note
+        $note->title = $request->text_title;
+        $note->text = $request->text_note;
+        $note->save();
+
+        // redirect to home
+        return redirect()->route('home');
     }
 
+    public function deleteNote($id) 
+    {
+        $id = Operations::decryptId($id);
+
+        // load note
+        $note = Note::find($id);
+
+        // show delete note confirm
+        return view('delete_note', ['note' => $note]);
+    }
+
+    public function deleteNoteConfirm($id)
+    {
+        // check if $id is encrypted
+        $id = Operations::decryptId($id);
+
+        // load note
+        $note = Note::find($id);
+
+        // 1.soft delete
+        // $note->deleted_at = date('Y:m:d H:i:s');
+        // $note->save();
+
+        // 2.soft delete (SoftDeletes in model)
+        $note->delete();
+
+        // 3.hard delete (SoftDeletes in model)
+        // $note->forceDelete();
+
+        // redirect to home
+        return redirect()->route('home');
+    }
 }
