@@ -2,7 +2,7 @@
 Notes App
 </h1>
 
-## 📕 Sobre
+## Sobre 📕
 
 Este é um aplicativo web simples construído com Laravel para gerenciar suas notas pessoais. Ele oferece funcionalidades essenciais como autenticação de usuário, criação, edição e exclusão de notas, tudo dentro de uma interface limpa e intuitiva.
 
